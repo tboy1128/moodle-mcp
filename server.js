@@ -152,7 +152,9 @@ const server = http.createServer(async (req, res) => {
     });
 
     // Send endpoint event
-    res.write(`event: endpoint\ndata: /message\n\n`);
+   const host = req.headers.host || 'localhost';
+const protocol = req.headers['x-forwarded-proto'] || 'https';
+res.write(`event: endpoint\ndata: ${protocol}://${host}/message\n\n`);
 
     req.on('close', () => {});
     return;
